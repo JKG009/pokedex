@@ -1,0 +1,1 @@
+export { default as pokemonSliceReducer } from "./pokemon/pokemonSlice"
