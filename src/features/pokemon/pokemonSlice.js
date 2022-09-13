@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const fetchPokemon = createAsyncThunk("pokemon/fetchPokemon", async (obj, {dispatch, getState}) => {
+export const fetchPokemon = createAsyncThunk("pokemon/fetchPokemon", async (url) => {
     try {
-        const response = await fetch(`${obj ? obj : "https://pokeapi.co/api/v2/pokemon"}`);
+        const response = await fetch(`${url ? url : "https://pokeapi.co/api/v2/pokemon"}`);
         const data = await response.json()
         return data
     } catch(error) {

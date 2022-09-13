@@ -12,7 +12,6 @@ const Pagination = () => {
   const nextPage = () => {
     dispatch(fetchPokemon(nextPageUrl))
   }
-  // console.log(nextPageUrl, prevPageUrl)
 
   return (
     <>
