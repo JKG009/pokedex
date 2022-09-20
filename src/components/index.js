@@ -1,3 +1,5 @@
 export { default as PokemonList } from "./PokemonList"
 export { default as Pagination } from "./Pagination"
 export { default as PokemonInfo } from "./PokemonInfo"
+export { default as PokemonEvo } from "./PokemonEvo"
+export { default as PokemonAbility } from "./PokemonAbility"

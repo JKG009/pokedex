@@ -15,8 +15,8 @@ const Pagination = () => {
 
   return (
     <>
-      <button onClick={() => prevPage()}>prevPage</button>
-      <button onClick={() => nextPage()}>nextPage</button>
+      <button disabled={!prevPageUrl} onClick={() => prevPage()}>prevPage</button>
+      <button disabled={!nextPageUrl} onClick={() => nextPage()}>nextPage</button>
     </>
   )
 }
