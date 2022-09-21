@@ -13,8 +13,9 @@ export const fetchPokemonEvoChainUrl = createAsyncThunk("getSelectedPokemonEvoUr
 export const fetchPokemonEvoChain = createAsyncThunk(
     "getSelectedPokemonEvoUrl/fetchPokemonEvoChain", async(url) => {
         try {
-            const response = await fetch(url);
+            const response = await fetch(url)
             const data = await response.json()
+            console.log(data)
             return data
         } catch(error) {
             console.log(error)
@@ -22,24 +23,44 @@ export const fetchPokemonEvoChain = createAsyncThunk(
     }
 )
 
-export const getSelectedPokemonEvoUrlSlice = createSlice({
-    name: "selected pokemon species",
-    initialState: {
+const initialState = {
         isLoading: true,
         speciesUrl: "",
         evolutionUrl: "",
-        firstEvo: "",
-        secondEvo: "",
-        thirdEvo: undefined,
+        firstEvoName: "",
+        firstImgSrc: "",
+        secondEvoName: "",
+        secondImgSrc: "",
+        thirdEvoName: undefined,
+        thirdImgSrc: "",
         error: null
-    },
+    }
+
+export const getSelectedPokemonEvoUrlSlice = createSlice({
+    name: "selected pokemon species",
+    initialState,
     reducers: {
         updateGetSelectedPokemonSpeciesUrl: (state, action) => {
             state.speciesUrl = action.payload
         },
         updateGetSelectedPokemonEvoUrl: (state, action) => {
             state.evolutionUrl = action.payload
-        }
+        },
+        removeEvo: (state, action) => {
+            state.firstEvoName = ""
+            state.secondEvoName = ""
+            state.thirdEvoName = ""
+        },
+        updateFirstImgSrc: (state, action) => {
+            state.firstImgSrc = action.payload
+        },
+        updateSecondImgSrc: (state, action) => {
+            state.secondImgSrc = action.payload
+        },
+        updateThirdImgSrc: (state, action) => {
+            state.thirdImgSrc = action.payload
+        },
+        resetEvoSlice: () => initialState
     },
     extraReducers: {
         [fetchPokemonEvoChainUrl.pending]: (state, action) => {
@@ -57,9 +78,9 @@ export const getSelectedPokemonEvoUrlSlice = createSlice({
             
         },
         [fetchPokemonEvoChain.fulfilled]: (state, action) => {
-            state.firstEvo = action.payload.chain.species.name
-            state.secondEvo = action.payload.chain.evolves_to[0].species.name
-            state.thirdEvo = action.payload.chain.evolves_to[0].evolves_to[0].species.name
+            state.firstEvoName = action.payload.chain.species.name
+            state.secondEvoName = action.payload.chain.evolves_to[0].species.name
+            state.thirdEvoName = action.payload.chain.evolves_to[0].evolves_to[0]?.species.name
         },
         [fetchPokemonEvoChain.rejected]: (state, action) => {
 
@@ -67,6 +88,6 @@ export const getSelectedPokemonEvoUrlSlice = createSlice({
     }
 })
 
-export const { updateGetSelectedPokemonEvoUrl, updateGetSelectedPokemonSpeciesUrl } = getSelectedPokemonEvoUrlSlice.actions
+export const { updateGetSelectedPokemonEvoUrl, updateGetSelectedPokemonSpeciesUrl, removeEvo,updateFirstImgSrc, updateSecondImgSrc, updateThirdImgSrc, resetEvoSlice } = getSelectedPokemonEvoUrlSlice.actions
 
 export default getSelectedPokemonEvoUrlSlice.reducer

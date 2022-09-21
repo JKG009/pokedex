@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { fetchSelectedPokemon, removeSelectedPokemonInfo } from '../features/selectedPokemonInfo/selectedPokemonInfoSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import {PokemonEvo, PokemonAbility} from './index'
-import { updateGetSelectedPokemonSpeciesUrl } from '../features/getSelectedPokemonEvoUrl/getSelectedPokemonEvoUrlSlice'
+import { updateGetSelectedPokemonSpeciesUrl, resetEvoSlice } from '../features/getSelectedPokemonEvoUrl/getSelectedPokemonEvoUrlSlice'
 
 const PokemonInfo = () => {
   const dispatch = useDispatch()
@@ -34,7 +34,7 @@ const PokemonInfo = () => {
 
   return (
     <>
-      <Link to={`/`}>Back</Link>
+      <Link onClick={() => dispatch(resetEvoSlice())} to={`/`}>Back</Link>
       <div>
         <div>
           <div>
