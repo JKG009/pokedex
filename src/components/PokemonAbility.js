@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
 
 const PokemonAbility = ({ability}) => {
     const [abilityName, setAbilityName] = useState("")
     const [abilityDetail, setAbilityDetail] = useState("")
+    const { pokemonId } = useParams()
 
     const fetchPokemonAbility = async(url) => {
         const response = await axios
@@ -21,7 +23,7 @@ const PokemonAbility = ({ability}) => {
     
     useEffect(() => {
       fetchPokemonAbility(ability.ability.url);
-    }, [ability.ability.url]);
+    }, [pokemonId, ability.ability.url]);
     
   return (
     <div>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPokemonEvoChainUrl,
@@ -37,9 +38,9 @@ const PokemonEvo = () => {
     (state) => state.getSelectedPokemonEvoUrl.thirdImgSrc
   );
 
-  let firstPhoto = `https://pokeapi.co/api/v2/pokemon/${firstName}`;
-  let secondPhoto = `https://pokeapi.co/api/v2/pokemon/${secondName}`;
-  let thirdPhoto = thirdName
+  const firstPhoto = `https://pokeapi.co/api/v2/pokemon/${firstName}`;
+  const secondPhoto = `https://pokeapi.co/api/v2/pokemon/${secondName}`;
+  const thirdPhoto = thirdName
     ? `https://pokeapi.co/api/v2/pokemon/${thirdName}`
     : null;
 
@@ -47,8 +48,7 @@ const PokemonEvo = () => {
   const requestTwo = axios.get(secondPhoto);
   const requestThree = thirdPhoto !== null && axios.get(thirdPhoto);
 
-  axios
-    .all([requestOne, requestTwo, requestThree])
+  Promise.all([requestOne, requestTwo, requestThree])
     .then(
       axios.spread((...responses) => {
         const responseOne = responses[0].data;
@@ -67,16 +67,17 @@ const PokemonEvo = () => {
           )
         );
 
-        responseThree ?
-          dispatch(
-            updateThirdImgSrc(
-              responseThree.sprites.other[`official-artwork`].front_default
+        responseThree
+          ? dispatch(
+              updateThirdImgSrc(
+                responseThree.sprites.other[`official-artwork`].front_default
+              )
             )
-          ) : dispatch(updateThirdImgSrc(""));
+          : dispatch(updateThirdImgSrc(""));
       })
     )
     .catch((error) => {
-      console.log(error)
+      console.log(error);
     });
 
   useEffect(() => {
@@ -92,14 +93,20 @@ const PokemonEvo = () => {
 
   return (
     <>
-      <div>{pokemonEvoUrl}</div>
-      <div>{speciesUrl}</div>
-      <img alt="" src={firstImgSrc} />
-      <div>{firstName}</div>
-      <img alt="" src={secondImgSrc} />
-      <div>{secondName}</div>
-      <img alt="" src={thirdImgSrc} />
-      <div>{thirdName}</div>
+      <Link to={`/pokemon/${firstName}`}>
+        <img alt="" src={firstImgSrc} />
+        <div>{firstName}</div>
+      </Link>
+      <Link to={`/pokemon/${secondName}`}>
+        <img alt="" src={secondImgSrc} />
+        <div>{secondName}</div>
+      </Link>
+      {thirdName && (
+        <Link to={`/pokemon/${thirdName}`}>
+          <img alt="" src={thirdImgSrc} />
+          <div>{thirdName}</div>
+        </Link>
+      )}
     </>
   );
 };
