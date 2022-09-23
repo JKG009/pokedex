@@ -1,24 +1,27 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchPokemon } from '../features/pokemon/pokemonSlice'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPokemonList } from "../features/pokemonList/pokemonListSlice";
 
 const Pagination = () => {
-  const dispatch = useDispatch()
-  const prevPageUrl = useSelector(state => state.pokemonList.prevPageUrl )
-  const nextPageUrl = useSelector(state => state.pokemonList.nextPageUrl)
+  const dispatch = useDispatch();
+  const { prevUrl, nextUrl } = useSelector((state) => state.pokemonList.urls);
   const prevPage = () => {
-    dispatch(fetchPokemon(prevPageUrl))
-  }
+    dispatch(fetchPokemonList(prevUrl));
+  };
   const nextPage = () => {
-    dispatch(fetchPokemon(nextPageUrl))
-  }
+    dispatch(fetchPokemonList(nextUrl));
+  };
 
   return (
     <>
-      <button disabled={!prevPageUrl} onClick={() => prevPage()}>prevPage</button>
-      <button disabled={!nextPageUrl} onClick={() => nextPage()}>nextPage</button>
+      <button disabled={!prevUrl} onClick={prevPage}>
+        Previous Page
+      </button>
+      <button disabled={!nextUrl} onClick={nextPage}>
+        Next Page
+      </button>
     </>
-  )
-}
+  );
+};
 
-export default Pagination
+export default Pagination;

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+// Fetch the selected Pokemon's details
 export const fetchSelectedPokemon = createAsyncThunk("selectedPokemonInfo/fetchSelectedPokemon", async(url) => {
     try {
         const response = await fetch(url)
@@ -27,7 +28,7 @@ export const selectedPokemonInfoSlice = createSlice({
         }
     },
     extraReducers: {
-        [fetchSelectedPokemon.pending]: (state, action) => {
+        [fetchSelectedPokemon.pending]: (state) => {
             state.isLoading = true
         },
         [fetchSelectedPokemon.fulfilled]: (state, action) => {

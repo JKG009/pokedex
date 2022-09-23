@@ -1,17 +1,18 @@
-import React from 'react';
-import { PokemonInfo, PokemonList, RedirectPage } from "./components"
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { PokemonInfo, PokemonList } from "./components";
+import { RedirectPage } from "./Pages";
 
 const App = () => {
   return (
-    <BrowserRouter>    
+    <BrowserRouter>
       <Routes>
-        <Route path="/" exact element={<PokemonList />} />
-        <Route path="/pokemon/:pokemonId" exact element={<PokemonInfo />} />
-        <Route path="*" exact element={<RedirectPage />} />
+        <Route path="/" element={<PokemonList />} />
+        <Route path="/pokemon/:pokemonId" element={<PokemonInfo />} />
+        <Route path="*" element={<RedirectPage />} />
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

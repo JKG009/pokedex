@@ -1,43 +1,38 @@
-import React , { useEffect } from 'react'
-import { Link } from "react-router-dom"
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchPokemon } from '../features/pokemon/pokemonSlice'
-import Pagination from './Pagination'
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPokemonList } from "../features/pokemonList/pokemonListSlice";
+import Pagination from "./Pagination";
 
 const PokemonList = () => {
-  const dispatch = useDispatch()
-  const pokemonList = useSelector(state => state.pokemonList.pokemon)
-  const isLoading = useSelector(state => state.pokemonList.isLoading)
-
+  const dispatch = useDispatch();
+  const { pokemonList, isLoading } = useSelector((state) => state.pokemonList);
+  
+  // Fetches new Pokemon list on first load, allow loaded list to be unchanged for "Back" button usage
   useEffect(() => {
-    if(pokemonList.length === 0){
-      dispatch(fetchPokemon())
+    if (pokemonList.length === 0) {
+      dispatch(fetchPokemonList());
     }
-  }, [dispatch, pokemonList])
+  }, [dispatch, pokemonList]);
 
-  const renderList = pokemonList.map(pokemon => (
-  <Link 
-    key={pokemon.name} 
-    to={`/pokemon/${pokemon.name}`} 
-    state={{pokemon}}>
+  const renderPokemonList = pokemonList.map((pokemon) => (
+    <Link style={{display: "flex"}} key={pokemon.name} to={`/pokemon/${pokemon.name}`}>
       {pokemon.name}
-  </Link>
-))
-    
+    </Link>
+  ));
+
   return (
     <div>
       {isLoading ? (
         <div>...loading</div>
       ) : (
         <>
-          {renderList}
+          {renderPokemonList}
           <Pagination />
         </>
       )}
     </div>
   );
-}
+};
 
-export default PokemonList
-
-
+export default PokemonList;
