@@ -19,6 +19,7 @@ export const pokemonListSlice = createSlice({
   initialState: {
     pokemonList: [],
     isLoading: true,
+    pokemonListLength: undefined,
     error: null,
     urls: {
       currentUrl: "",

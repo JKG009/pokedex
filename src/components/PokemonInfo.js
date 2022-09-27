@@ -1,49 +1,15 @@
-import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { PokemonEvo, PokemonAbility } from "./index";
-import {
-  fetchSelectedPokemon,
-  removeSelectedPokemonInfo,
-} from "../features/selectedPokemonInfo/selectedPokemonInfoSlice";
-import {
-  updateSelectedPokemonSpeciesUrl,
-  resetEvoSlice,
-} from "../features/selectedPokemonEvo/selectedPokemonEvoSlice";
-import { BASE_URL, capitaliseStr } from "../config";
+import { PokemonEvo } from "./index";
+import { resetEvoSlice } from "../features/selectedPokemonEvo/selectedPokemonEvoSlice";
+import { capitaliseStr } from "../config";
+import usePokemonInfo from "../hooks/usePokemonInfo";
 
 const PokemonInfo = () => {
   const dispatch = useDispatch();
-  const { pokemonId } = useParams();
   const { isLoading, info } = useSelector((state) => state.selectedPokemonInfo);
-
-  const renderPokemonTypes = info.types?.map((type) => (
-    <p key={type.type.name} className={type.type.name}>
-      {capitaliseStr( type.type.name)}
-    </p>
-  ));
-
-  const renderPokemonAbility = info.abilities?.map((ability) => (
-    <PokemonAbility key={ability.name} abilityUrl={ability.ability.url} />
-  ));
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pokemonId]);
-
-  // Uses useParams to allows user to type either the Pokemon's Id or name into the url on top of being directed onto page
-  useEffect(() => {
-    dispatch(fetchSelectedPokemon(`${BASE_URL}pokemon/${pokemonId}`));
-    return () => {
-      dispatch(removeSelectedPokemonInfo());
-    };
-  }, [dispatch, pokemonId]);
-
-  useEffect(() => {
-    dispatch(
-      updateSelectedPokemonSpeciesUrl(`${BASE_URL}pokemon-species/${info.id}/`)
-    );
-  }, [dispatch, pokemonId, info.id]);
+  const { renderPokemonTypes, renderPokemonAbility } = usePokemonInfo();
 
   return isLoading ? (
     <div>Loading Pokemon...</div>
@@ -58,7 +24,7 @@ const PokemonInfo = () => {
         </Link>
         <Link to={info.id !== 905 && `/pokemon/${info.id + 1}`}>
           {" "}
-          Next Pokemon{" "}
+          Next Pokemon
         </Link>
       </div>
       <div>

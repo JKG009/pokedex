@@ -28,6 +28,36 @@ export const fetchEvoChainPokemons = createAsyncThunk(
   }
 );
 
+// Using recursive function to get the names of Pokemon
+//
+// export const fetchEvoChainPokemons = createAsyncThunk(
+//   "selectedPokemonEvo/fetchEvoChainPokemons",
+//   async (url) => {
+//     try {
+//       const response = await fetch(url);
+//       const data = await response.json();
+//       let names = [];
+//       const iterateObject = (obj) => {
+//         for (const prop in obj) {
+//           if (typeof obj[prop] == "object") {
+//             iterateObject(obj[prop]);
+//           } else {
+//             if (prop === "name" && obj[prop] !== "level-up") {
+//               names.push(obj[prop]);
+//             }
+//           }
+//         }
+//       };
+//       iterateObject(data);
+//       console.log(names.reverse());
+//       const namesInOrder = names.reverse();
+//       return namesInOrder;
+//     } catch (error) {
+//       throw Error(error);
+//     }
+//   }
+// );
+
 const initialState = {
   error: null,
   url: {
@@ -45,6 +75,8 @@ const initialState = {
     thirdEvoName: undefined,
     thirdImgSrc: undefined,
   },
+
+  // evolutionNameDetails: [],
 };
 
 export const selectedPokemonEvoSlice = createSlice({
@@ -98,6 +130,7 @@ export const selectedPokemonEvoSlice = createSlice({
         action.payload.chain.evolves_to[0].species.name;
       state.pokemonEvoDetails.thirdEvoName =
         action.payload.chain.evolves_to[0].evolves_to[0]?.species.name;
+      // state.evolutionNameDetails = action.payload;
     },
     [fetchEvoChainPokemons.rejected]: (state, action) => {
       state.pokemonEvoDetails.isLoading = false;
