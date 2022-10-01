@@ -3,9 +3,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // Fetches the Evolution Url for the selected Pokemon
 export const fetchEvoChainUrl = createAsyncThunk(
   "selectedPokemonEvo/fetchEvoChainUrl",
-  async (url) => {
+  async (speciesUrl) => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(speciesUrl);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -17,9 +17,9 @@ export const fetchEvoChainUrl = createAsyncThunk(
 // Fetches the details of each Pokemon in an evolution chain
 export const fetchEvoChainPokemons = createAsyncThunk(
   "selectedPokemonEvo/fetchEvoChainPokemons",
-  async (url) => {
+  async (evolutionUrl) => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(evolutionUrl);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -29,27 +29,26 @@ export const fetchEvoChainPokemons = createAsyncThunk(
 );
 
 // Using recursive function to get the names of Pokemon
-//
+
 // export const fetchEvoChainPokemons = createAsyncThunk(
 //   "selectedPokemonEvo/fetchEvoChainPokemons",
-//   async (url) => {
+//   async (evolutionUrl) => {
 //     try {
-//       const response = await fetch(url);
+//       const response = await fetch(evolutionUrl);
 //       const data = await response.json();
 //       let names = [];
 //       const iterateObject = (obj) => {
 //         for (const prop in obj) {
-//           if (typeof obj[prop] == "object") {
+//           if (typeof obj[prop] == "object" && prop !== "species") {
 //             iterateObject(obj[prop]);
 //           } else {
-//             if (prop === "name" && obj[prop] !== "level-up") {
-//               names.push(obj[prop]);
+//             if (prop === "species") {
+//               names.push(obj[prop].name);
 //             }
 //           }
 //         }
 //       };
 //       iterateObject(data);
-//       console.log(names.reverse());
 //       const namesInOrder = names.reverse();
 //       return namesInOrder;
 //     } catch (error) {
@@ -57,6 +56,12 @@ export const fetchEvoChainPokemons = createAsyncThunk(
 //     }
 //   }
 // );
+
+const getEnText = (arr) => {
+  return arr
+    .find((arr) => arr.language.name === "en")
+    .flavor_text.replace(/[^a-zA-Z0-9é]/g, " ");
+};
 
 const initialState = {
   error: null,
@@ -75,14 +80,18 @@ const initialState = {
     thirdEvoName: undefined,
     thirdImgSrc: undefined,
   },
-
-  // evolutionNameDetails: [],
+  pokemonFlavorText: "",
+  evolutionNameDetails: [],
+  evolutionImgSrc: [],
 };
 
 export const selectedPokemonEvoSlice = createSlice({
   name: "selected pokemon evo species",
   initialState,
   reducers: {
+    updateEvolutionImgSrc: (state, action) => {
+      state.evolutionImgSrc = [...state.evolutionImgSrc, action.payload];
+    },
     updateSelectedPokemonSpeciesUrl: (state, action) => {
       state.url.speciesUrl = action.payload;
     },
@@ -96,6 +105,10 @@ export const selectedPokemonEvoSlice = createSlice({
       state.pokemonEvoDetails.firstImgSrc = "";
       state.pokemonEvoDetails.secondImgSrc = "";
       state.pokemonEvoDetails.thirdImgSrc = "";
+      state.pokemonEvoDetails.evolutionImgSrc = [];
+    },
+    removeName: (state) => {
+      state.pokemonEvoDetails.evolutionNameDetails = [];
     },
     updateFirstImgSrc: (state, action) => {
       state.pokemonEvoDetails.firstImgSrc = action.payload;
@@ -106,7 +119,6 @@ export const selectedPokemonEvoSlice = createSlice({
     updateThirdImgSrc: (state, action) => {
       state.pokemonEvoDetails.thirdImgSrc = action.payload;
     },
-    resetEvoSlice: () => initialState,
   },
   extraReducers: {
     [fetchEvoChainUrl.pending]: (state) => {
@@ -114,6 +126,7 @@ export const selectedPokemonEvoSlice = createSlice({
     },
     [fetchEvoChainUrl.fulfilled]: (state, action) => {
       state.url.isLoading = false;
+      state.pokemonFlavorText = getEnText(action.payload.flavor_text_entries);
       state.url.evolutionUrl = action.payload.evolution_chain.url;
     },
     [fetchEvoChainUrl.rejected]: (state, action) => {
@@ -140,14 +153,15 @@ export const selectedPokemonEvoSlice = createSlice({
 });
 
 export const {
+  updateEvolutionImgSrc,
   updateSelectedPokemonEvoUrl,
   updateSelectedPokemonSpeciesUrl,
   updatePrevEvolutionUrl,
+  removeName,
   removeEvoImgSrc,
   updateFirstImgSrc,
   updateSecondImgSrc,
   updateThirdImgSrc,
-  resetEvoSlice,
 } = selectedPokemonEvoSlice.actions;
 
 export default selectedPokemonEvoSlice.reducer;

@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { PokemonInfo, PokemonList } from "./components";
-import { RedirectPage } from "./Pages";
+import { PokemonList, PokemonInfo, RedirectPage } from "./Pages";
+import "./styles/global.css";
 
 const App = () => {
   return (

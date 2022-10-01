@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  updateEvolutionImgSrc,
   fetchEvoChainUrl,
   fetchEvoChainPokemons,
   removeEvoImgSrc,
@@ -9,6 +10,7 @@ import {
   updateSecondImgSrc,
   updateThirdImgSrc,
   updatePrevEvolutionUrl,
+  removeName,
 } from "../features/selectedPokemonEvo/selectedPokemonEvoSlice";
 import { BASE_URL } from "../config";
 
@@ -17,6 +19,40 @@ const usePokemonEvo = () => {
   const { evolutionUrl, speciesUrl, prevEvolutionUrl } = useSelector(
     (state) => state.selectedPokemonEvo.url
   );
+
+  // New
+  // const evolutionNameDetails = useSelector(
+  //   (state) => state.selectedPokemonEvo.evolutionNameDetails
+  // );
+  // console.log("NAMES", evolutionNameDetails);
+  // const requests = evolutionNameDetails.map(
+  //   (name) => `${BASE_URL}pokemon/${name}`
+  // );
+  // const evolutionImgSrc = useSelector(
+  //   (state) => state.selectedPokemonEvo.evolutionImgSrc
+  // );
+  // // console.log("IMGS", evolutionImgSrc)
+
+  // const getData = async () => {
+  //   requests.map(async (request) => {
+  //     const response = await axios.get(request);
+  //     console.log(response);
+  //     dispatch(
+  //       updateEvolutionImgSrc(
+  //         response.data.sprites.other[`official-artwork`].front_default
+  //       )
+  //     );
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   if (evolutionImgSrc.length <= 0) {
+  //     getData();
+  //   }
+  //   return () => {};
+  // }, [evolutionNameDetails]);
+
+  // Old
   const {
     firstEvoName,
     firstImgSrc,

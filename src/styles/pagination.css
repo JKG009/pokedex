@@ -1,0 +1,75 @@
+.pagination--container {
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.8rem;
+  background-color: rgb(140, 176, 188);
+}
+
+.pagination--button {
+  min-width: 100px;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #ededee;
+  border: solid black 2px;
+}
+
+.pagination--button:hover {
+  background-color: white;
+}
+
+.pagination--button:disabled {
+  pointer-events: none;
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.pagination--input_container {
+  min-width: 370px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.pagination--label {
+  margin-right: 0.8rem;
+}
+
+.pagination--input {
+  width: 70px;
+  height: 30px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #ededee;
+  border: solid black 2px;
+  margin-right: 0.8rem;
+}
+
+@media (max-width: 1000px) {
+  .pagination--container {
+    height: 150px;
+  }
+
+  .pagination--input_container {
+    flex-direction: column;
+  }
+
+  .pagination--label {
+    margin-bottom: 0.8rem;
+  margin-right: 0;
+
+  }
+
+  .pagination--input {
+    margin-bottom: 0.8rem;
+  margin-right: 0;
+  }
+
+  .pagination--button {
+    margin: 0 0.8rem;
+  }
+}

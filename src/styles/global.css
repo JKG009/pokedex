@@ -1,0 +1,20 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Neucha", cursive;
+  color: #373737;
+  letter-spacing: 2px;
+}
+
+.blank_page {
+  background-color: #565656;
+  min-width: 640px;
+}
+
+.loading {
+  color: white;
+  text-align: center;
+  height: 50%;
+  padding: 500px 0;
+}

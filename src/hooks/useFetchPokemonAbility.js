@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { capitaliseStr } from "../config";
 
-const useFetchPokemonAbility = () => {
+const useFetchPokemonAbility = (abilityUrl) => {
   const [abilityName, setAbilityName] = useState("");
   const [abilityDetail, setAbilityDetail] = useState("");
 
@@ -16,7 +16,11 @@ const useFetchPokemonAbility = () => {
     }
   };
 
-  return { abilityName, abilityDetail, fetchPokemonAbility };
+  useEffect(() => {
+    fetchPokemonAbility(abilityUrl);
+  }, [abilityUrl]);
+
+  return { abilityName, abilityDetail };
 };
 
 export default useFetchPokemonAbility;

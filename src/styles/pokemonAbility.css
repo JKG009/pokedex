@@ -1,0 +1,22 @@
+.ability--container {
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    background-color: #ededee;
+    width: 400px;
+}
+
+.ability--name {
+    font-size: 1.2rem;
+    margin: 0.4rem 0;
+}
+
+.ability--ability {
+    line-height: 1.4;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 1100px) {
+    .ability--container {
+        margin: 1rem 0;
+    }
+}

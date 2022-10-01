@@ -1,7 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Pagination from "./Pagination";
+import Pagination from "../components/Pagination";
 import usePokemonList from "../hooks/usePokemonList";
+import "../styles/pokemonList.css";
 
 const PokemonList = () => {
   const { isLoading } = useSelector((state) => state.pokemonList);
@@ -10,12 +11,15 @@ const PokemonList = () => {
   return (
     <div>
       {isLoading ? (
-        <div>...loading</div>
+        <div className="blank_page">
+          <p className="loading">...loading</p>
+        </div>
       ) : (
-        <>
-          {renderPokemonList}
+        <div className="blank_page">
           <Pagination />
-        </>
+          <div className="list--link_container"> {renderPokemonList}</div>
+          <Pagination />
+        </div>
       )}
     </div>
   );
