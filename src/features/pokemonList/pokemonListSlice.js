@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { BASE_URL } from "../../config";
 
 export const fetchPokemonList = createAsyncThunk(
   "pokemonList/fetchPokemonList",
   async (url) => {
     try {
-      const response = await fetch(`${url ? url : `${BASE_URL}pokemon`}`);
+      const response = await fetch(url);
       const data = await response.json();
       return data;
     } catch (error) {

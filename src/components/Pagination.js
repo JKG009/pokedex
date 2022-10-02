@@ -33,6 +33,9 @@ const Pagination = () => {
           id="Pokemon List Length"
           onChange={(e) => {
             setPokemonListLength(e.target.value);
+            dispatch(
+              fetchPokemonList(`${BASE_URL}pokemon/?limit=${e.target.value}`)
+            );
           }}
         >
           <option value={10}>10</option>
@@ -41,16 +44,6 @@ const Pagination = () => {
           <option value={40}>40</option>
           <option value={50}>50</option>
         </select>
-        <button
-          className="pagination--button"
-          onClick={() =>
-            dispatch(
-              fetchPokemonList(`${BASE_URL}pokemon/?limit=${pokemonListLength}`)
-            )
-          }
-        >
-          Set
-        </button>
       </div>
       <button
         className="pagination--button"

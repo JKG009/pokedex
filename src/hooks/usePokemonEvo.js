@@ -99,6 +99,10 @@ const usePokemonEvo = () => {
     };
   }, [dispatch, prevEvolutionUrl, evolutionUrl]);
 
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
   return { requestOne, requestTwo, requestThree, fetchPokemonEvo };
 };
 

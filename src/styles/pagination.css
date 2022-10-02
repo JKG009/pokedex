@@ -46,7 +46,7 @@
   font-weight: bold;
   background-color: #ededee;
   border: solid black 2px;
-  margin-right: 0.8rem;
+  /* margin-right: 0.8rem; */
 }
 
 @media (max-width: 1000px) {
@@ -60,13 +60,13 @@
 
   .pagination--label {
     margin-bottom: 0.8rem;
-  margin-right: 0;
+    margin-right: 0;
 
   }
 
   .pagination--input {
     margin-bottom: 0.8rem;
-  margin-right: 0;
+    /* margin-right: 0; */
   }
 
   .pagination--button {

@@ -5,6 +5,7 @@
   font-family: "Neucha", cursive;
   color: #373737;
   letter-spacing: 2px;
+  scroll-behavior: smooth;
 }
 
 .blank_page {

@@ -18,3 +18,9 @@ export const appendHashToId = (number) => {
   }
   return `#00${stringifiedNumber}`;
 };
+
+export const getEnText = (arr) => {
+  return arr
+    .find((arr) => arr.language.name === "en")
+    .flavor_text.replace(/[^a-zA-Z0-9é,.]/g, " ");
+};

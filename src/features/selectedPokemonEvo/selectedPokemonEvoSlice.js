@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getEnText } from "../../config";
 
 // Fetches the Evolution Url for the selected Pokemon
 export const fetchEvoChainUrl = createAsyncThunk(
@@ -56,12 +57,6 @@ export const fetchEvoChainPokemons = createAsyncThunk(
 //     }
 //   }
 // );
-
-const getEnText = (arr) => {
-  return arr
-    .find((arr) => arr.language.name === "en")
-    .flavor_text.replace(/[^a-zA-Z0-9é]/g, " ");
-};
 
 const initialState = {
   error: null,
