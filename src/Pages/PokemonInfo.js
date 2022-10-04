@@ -10,8 +10,8 @@ import "../styles/pokemonInfo.css";
 const PokemonInfo = () => {
   const { renderPokemonTypes, renderPokemonAbility } = usePokemonInfo();
   const { isLoading, info } = useSelector((state) => state.selectedPokemonInfo);
-  const pokemonFlavorText = useSelector(
-    (state) => state.selectedPokemonEvo.pokemonFlavorText
+  const { pokemonFlavorText } = useSelector(
+    (state) => state.selectedPokemonEvo.pokemonEvoDetails
   );
 
   return isLoading ? (

@@ -1,74 +1,74 @@
 .info--type_grass {
-    background-color: green;
-    color: white;
+  background-color: green;
+  color: white;
 }
 
 .info--type_poison {
-    background-color: rgb(187, 11, 187);
-    color: white;
+  background-color: rgb(187, 11, 187);
+  color: white;
 }
 
 .info--type_bug {
-    background-color: rgb(27, 200, 27);
+  background-color: rgb(27, 200, 27);
 }
 
 .info--type_water {
-    background-color: rgb(46, 46, 224);
-    color: white;
+  background-color: rgb(46, 46, 224);
+  color: white;
 }
 
 .info--type_ice {
-    background-color: #98D8D8;
+  background-color: #98d8d8;
 }
 
 .info--type_flying {
-    background-color: skyblue;
+  background-color: skyblue;
 }
 
 .info--type_ghost {
-    background-color: #705898;
+  background-color: #705898;
 }
 
 .info--type_fire {
-    background-color: #F08030;
-    color: white;
+  background-color: #f08030;
+  color: white;
 }
 
 .info--type_normal {
-    background-color: rgb(144, 143, 143);
+  background-color: rgb(144, 143, 143);
 }
 
 .info--type_electric {
-    background-color: rgb(218, 218, 3);
+  background-color: rgb(218, 218, 3);
 }
 
 .info--type_ground {
-    background-color: #844301;
-    color: white;
+  background-color: #844301;
+  color: white;
 }
 
 .info--type_fairy {
-    background-color: rgb(224, 171, 180);
+  background-color: rgb(224, 171, 180);
 }
 
 .info--type_fighting {
-    background-color: #C03028;
-    color: white;
+  background-color: #c03028;
+  color: white;
 }
 
 .info--type_psychic {
-    background-color: #F85888;
+  background-color: #f85888;
 }
 
 .info--type_rock {
-    background-color: #B8A038;
+  background-color: #b8a038;
 }
 
 .info--type_steel {
-    background-color: #B8B8D0;
+  background-color: #b8b8d0;
 }
 
 .info--type_dragon {
-    background-color: #7038F8;
-    color: white;
+  background-color: #7038f8;
+  color: white;
 }

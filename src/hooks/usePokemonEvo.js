@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,86 +6,24 @@ import {
   fetchEvoChainUrl,
   fetchEvoChainPokemons,
   removeEvoImgSrc,
-  updateFirstImgSrc,
-  updateSecondImgSrc,
-  updateThirdImgSrc,
   updatePrevEvolutionUrl,
-  removeName,
 } from "../features/selectedPokemonEvo/selectedPokemonEvoSlice";
-import { BASE_URL } from "../config";
+import { BASE_URL, capitaliseStr, combineArrays } from "../config";
+import { Link } from "react-router-dom";
 
 const usePokemonEvo = () => {
   const dispatch = useDispatch();
-  const { evolutionUrl, speciesUrl, prevEvolutionUrl } = useSelector(
-    (state) => state.selectedPokemonEvo.url
-  );
-
-  // New
-  // const evolutionNameDetails = useSelector(
-  //   (state) => state.selectedPokemonEvo.evolutionNameDetails
-  // );
-  // console.log("NAMES", evolutionNameDetails);
-  // const requests = evolutionNameDetails.map(
-  //   (name) => `${BASE_URL}pokemon/${name}`
-  // );
-  // const evolutionImgSrc = useSelector(
-  //   (state) => state.selectedPokemonEvo.evolutionImgSrc
-  // );
-  // // console.log("IMGS", evolutionImgSrc)
-
-  // const getData = async () => {
-  //   requests.map(async (request) => {
-  //     const response = await axios.get(request);
-  //     console.log(response);
-  //     dispatch(
-  //       updateEvolutionImgSrc(
-  //         response.data.sprites.other[`official-artwork`].front_default
-  //       )
-  //     );
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   if (evolutionImgSrc.length <= 0) {
-  //     getData();
-  //   }
-  //   return () => {};
-  // }, [evolutionNameDetails]);
-
-  // Old
+  const [prevPoke, setPrevPoke] = useState([]);
   const {
-    firstEvoName,
-    firstImgSrc,
-    secondEvoName,
-    secondImgSrc,
-    thirdEvoName,
-    thirdImgSrc,
-  } = useSelector((state) => state.selectedPokemonEvo.pokemonEvoDetails);
-
-  const requestOne = firstEvoName ? `${BASE_URL}pokemon/${firstEvoName}` : null;
-  const requestTwo = secondEvoName
-    ? `${BASE_URL}pokemon/${secondEvoName}`
-    : null;
-  const requestThree = thirdEvoName
-    ? `${BASE_URL}pokemon/${thirdEvoName}`
-    : null;
-
-  useEffect(() => {
-    requestOne && fetchPokemonEvo(requestOne, updateFirstImgSrc);
-    requestTwo && fetchPokemonEvo(requestTwo, updateSecondImgSrc);
-    requestThree && fetchPokemonEvo(requestThree, updateThirdImgSrc);
-  }, [requestOne, requestTwo, requestThree]);
-
-  const fetchPokemonEvo = async (url, action) => {
-    const response = await axios.get(url).catch((error) => console.log(error));
-    dispatch(
-      action(response.data.sprites.other[`official-artwork`].front_default)
-    );
-  };
+    pokemonEvoDetails: { evolutionNameDetails, evolutionImgSrc },
+    url: { evolutionUrl, speciesUrl, prevEvolutionUrl },
+  } = useSelector((state) => state.selectedPokemonEvo);
 
   // Fetches the evolution url with the results from speciesUrl(PokemonInfo)
   useEffect(() => {
-    dispatch(fetchEvoChainUrl(speciesUrl));
+    if (!speciesUrl.includes(undefined)) {
+      dispatch(fetchEvoChainUrl(speciesUrl));
+    }
   }, [dispatch, speciesUrl]);
 
   // Runs second, after fetchEvoChainUrl to fetch the individual pokemon of that evolution chain
@@ -99,11 +37,58 @@ const usePokemonEvo = () => {
     };
   }, [dispatch, prevEvolutionUrl, evolutionUrl]);
 
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  const fetchPokemonEvoImgSrcs = async (requests) => {
+    requests.map(async (request) => {
+      const response = await axios.get(request);
+      dispatch(
+        updateEvolutionImgSrc(
+          response.data.sprites.other[`official-artwork`].front_default
+        )
+      );
+    });
+  };
 
-  return { requestOne, requestTwo, requestThree, fetchPokemonEvo };
+  // Runs third, fetches the src of the Pokemon names array before sorting them into order based on the Pokemon's ID before rendering the data into Links
+  useEffect(() => {
+    if (evolutionNameDetails[0] !== prevPoke[0]) {
+      const requests = evolutionNameDetails.map(
+        (name) => `${BASE_URL}pokemon/${name}`
+      );
+      setPrevPoke(requests);
+      fetchPokemonEvoImgSrcs(requests);
+    }
+  }, [evolutionNameDetails]);
+
+  const evoImgSrcInOrder = evolutionImgSrc
+    .map((src) => src.replace(/\D/g, ""))
+    .sort((a, b) => a - b)
+    .map(
+      (src) =>
+        `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${src}.png`
+    );
+
+  const combinedPokemonObject = combineArrays(
+    evolutionNameDetails,
+    evoImgSrcInOrder
+  );
+
+  const namesArr = Object.keys(combinedPokemonObject);
+  const urlArr = Object.values(combinedPokemonObject);
+
+  const renderLinks = namesArr.map((name, index) => (
+    <Link key={name} className="evo--link" to={`/pokemon/${name}`}>
+      <h3 className="evo--pokemon_name">{capitaliseStr(name)}</h3>
+      <div className="evo--img_background">
+        <img className="evo--img" alt={name} src={urlArr[index]} />
+      </div>
+    </Link>
+  ));
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return renderLinks;
 };
 
 export default usePokemonEvo;

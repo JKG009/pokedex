@@ -24,3 +24,10 @@ export const getEnText = (arr) => {
     .find((arr) => arr.language.name === "en")
     .flavor_text.replace(/[^a-zA-Z0-9é,.]/g, " ");
 };
+
+export const combineArrays = (key, value) => {
+  return key.reduce((acc, val, ind) => {
+    acc[val] = value[ind];
+    return acc;
+  }, {});
+};

@@ -62,7 +62,7 @@
   .list--link_container {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .list--link {
     min-width: 100px;
     width: 250px;
