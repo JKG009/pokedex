@@ -8,7 +8,13 @@ const PokemonEvo = () => {
   return (
     <>
       <h2 className="evo--title">Evolutions</h2>
-      <div className="evo--link_container">{renderLinks}</div>
+      <div
+        className={`evo--link_container ${
+          renderLinks.length > 4 && "evo--link_large_container"
+        }`}
+      >
+        {renderLinks}
+      </div>
     </>
   );
 };

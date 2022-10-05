@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  updateEvolutionImgSrc,
   fetchEvoChainUrl,
   fetchEvoChainPokemons,
-  removeEvoImgSrc,
   updatePrevEvolutionUrl,
 } from "../features/selectedPokemonEvo/selectedPokemonEvoSlice";
-import { BASE_URL, capitaliseStr, combineArrays } from "../config";
+import { capitaliseStr } from "../config";
 import { Link } from "react-router-dom";
 
 const usePokemonEvo = () => {
   const dispatch = useDispatch();
-  const [prevPoke, setPrevPoke] = useState([]);
   const {
-    pokemonEvoDetails: { evolutionNameDetails, evolutionImgSrc },
+    pokemonEvoDetails: { evolutionPokemon },
     url: { evolutionUrl, speciesUrl, prevEvolutionUrl },
   } = useSelector((state) => state.selectedPokemonEvo);
 
@@ -33,53 +29,20 @@ const usePokemonEvo = () => {
       dispatch(fetchEvoChainPokemons(evolutionUrl));
     }
     return () => {
-      dispatch(removeEvoImgSrc());
     };
   }, [dispatch, prevEvolutionUrl, evolutionUrl]);
 
-  const fetchPokemonEvoImgSrcs = async (requests) => {
-    requests.map(async (request) => {
-      const response = await axios.get(request);
-      dispatch(
-        updateEvolutionImgSrc(
-          response.data.sprites.other[`official-artwork`].front_default
-        )
-      );
-    });
-  };
-
-  // Runs third, fetches the src of the Pokemon names array before sorting them into order based on the Pokemon's ID before rendering the data into Links
-  useEffect(() => {
-    if (evolutionNameDetails[0] !== prevPoke[0]) {
-      const requests = evolutionNameDetails.map(
-        (name) => `${BASE_URL}pokemon/${name}`
-      );
-      setPrevPoke(requests);
-      fetchPokemonEvoImgSrcs(requests);
-    }
-  }, [evolutionNameDetails]);
-
-  const evoImgSrcInOrder = evolutionImgSrc
-    .map((src) => src.replace(/\D/g, ""))
-    .sort((a, b) => a - b)
-    .map(
-      (src) =>
-        `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${src}.png`
-    );
-
-  const combinedPokemonObject = combineArrays(
-    evolutionNameDetails,
-    evoImgSrcInOrder
-  );
-
-  const namesArr = Object.keys(combinedPokemonObject);
-  const urlArr = Object.values(combinedPokemonObject);
-
-  const renderLinks = namesArr.map((name, index) => (
+  const renderLinks = evolutionPokemon.map(({ name, url }) => (
     <Link key={name} className="evo--link" to={`/pokemon/${name}`}>
       <h3 className="evo--pokemon_name">{capitaliseStr(name)}</h3>
       <div className="evo--img_background">
-        <img className="evo--img" alt={name} src={urlArr[index]} />
+        <img
+          className="evo--img"
+          alt={name}
+          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${url
+            .replace(/\D/g, "")
+            .slice(1)}.png`}
+        />
       </div>
     </Link>
   ));

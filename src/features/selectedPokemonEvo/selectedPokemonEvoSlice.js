@@ -22,21 +22,21 @@ export const fetchEvoChainPokemons = createAsyncThunk(
     try {
       const response = await fetch(evolutionUrl);
       const data = await response.json();
-      let names = [];
+      let pokemonObj = [];
       const iterateObject = (obj) => {
         for (const prop in obj) {
           if (typeof obj[prop] == "object" && prop !== "species") {
             iterateObject(obj[prop]);
           } else {
             if (prop === "species") {
-              names.push(obj[prop].name);
+              pokemonObj.push({ name: obj[prop].name, url: obj[prop].url });
             }
           }
         }
       };
       iterateObject(data);
-      const namesInOrder = names.reverse();
-      return namesInOrder;
+      const pokemonObjInOrder = pokemonObj.reverse();
+      return pokemonObjInOrder;
     } catch (error) {
       throw Error(error);
     }
@@ -54,8 +54,7 @@ const initialState = {
   pokemonEvoDetails: {
     isLoading: true,
     pokemonFlavorText: "",
-    evolutionNameDetails: [],
-    evolutionImgSrc: [],
+    evolutionPokemon: [],
   },
 };
 
@@ -63,12 +62,6 @@ export const selectedPokemonEvoSlice = createSlice({
   name: "selected pokemon evo species",
   initialState,
   reducers: {
-    updateEvolutionImgSrc: (state, action) => {
-      state.pokemonEvoDetails.evolutionImgSrc = [
-        ...state.pokemonEvoDetails.evolutionImgSrc,
-        action.payload,
-      ];
-    },
     updateSelectedPokemonSpeciesUrl: (state, action) => {
       state.url.speciesUrl = action.payload;
     },
@@ -77,9 +70,6 @@ export const selectedPokemonEvoSlice = createSlice({
     },
     updatePrevEvolutionUrl: (state, action) => {
       state.url.prevEvolutionUrl = action.payload;
-    },
-    removeEvoImgSrc: (state) => {
-      state.pokemonEvoDetails.evolutionImgSrc = [];
     },
   },
   extraReducers: {
@@ -97,12 +87,12 @@ export const selectedPokemonEvoSlice = createSlice({
       state.url.isLoading = false;
       state.error = action.error.message;
     },
-    [fetchEvoChainPokemons.pending]: (state, action) => {
+    [fetchEvoChainPokemons.pending]: (state) => {
       state.pokemonEvoDetails.isLoading = true;
     },
     [fetchEvoChainPokemons.fulfilled]: (state, action) => {
       state.pokemonEvoDetails.isLoading = false;
-      state.pokemonEvoDetails.evolutionNameDetails = action.payload;
+      state.pokemonEvoDetails.evolutionPokemon = action.payload;
     },
     [fetchEvoChainPokemons.rejected]: (state, action) => {
       state.pokemonEvoDetails.isLoading = false;
@@ -112,11 +102,9 @@ export const selectedPokemonEvoSlice = createSlice({
 });
 
 export const {
-  updateEvolutionImgSrc,
   updateSelectedPokemonEvoUrl,
   updateSelectedPokemonSpeciesUrl,
   updatePrevEvolutionUrl,
-  removeEvoImgSrc,
 } = selectedPokemonEvoSlice.actions;
 
 export default selectedPokemonEvoSlice.reducer;
