@@ -4,6 +4,7 @@ import {
   fetchEvoChainUrl,
   fetchEvoChainPokemons,
   updatePrevEvolutionUrl,
+  removeFlavorText,
 } from "../features/selectedPokemonEvo/selectedPokemonEvoSlice";
 import { capitaliseStr } from "../config";
 import { Link } from "react-router-dom";
@@ -18,7 +19,11 @@ const usePokemonEvo = () => {
   // Fetches the evolution url with the results from speciesUrl(PokemonInfo)
   useEffect(() => {
     if (!speciesUrl.includes(undefined)) {
-      dispatch(fetchEvoChainUrl(speciesUrl));
+      const promise = dispatch(fetchEvoChainUrl(speciesUrl));
+      return () => {
+        promise.abort()
+        dispatch(removeFlavorText())
+      }
     }
   }, [dispatch, speciesUrl]);
 

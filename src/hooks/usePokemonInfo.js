@@ -6,7 +6,10 @@ import {
   fetchSelectedPokemon,
   removeSelectedPokemonInfo,
 } from "../features/selectedPokemonInfo/selectedPokemonInfoSlice";
-import { updateSelectedPokemonSpeciesUrl } from "../features/selectedPokemonEvo/selectedPokemonEvoSlice";
+import {
+  removeSelectedPokemonSpeciesUrl,
+  updateSelectedPokemonSpeciesUrl,
+} from "../features/selectedPokemonEvo/selectedPokemonEvoSlice";
 import { BASE_URL, capitaliseStr } from "../config";
 import "../styles/pokemonType.css";
 
@@ -40,7 +43,10 @@ const usePokemonInfo = () => {
     dispatch(
       updateSelectedPokemonSpeciesUrl(`${BASE_URL}pokemon-species/${info.id}/`)
     );
-  }, [dispatch, pokemonId, info.id]);
+    return () => {
+      dispatch(removeSelectedPokemonSpeciesUrl());
+    };
+  }, [dispatch, info.id]);
 
   return { renderPokemonTypes, renderPokemonAbility };
 };

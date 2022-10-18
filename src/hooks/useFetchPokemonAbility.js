@@ -6,18 +6,26 @@ const useFetchPokemonAbility = (abilityUrl) => {
   const [abilityName, setAbilityName] = useState("");
   const [abilityDetail, setAbilityDetail] = useState("");
 
-  const fetchPokemonAbility = async (url) => {
-    const response = await axios.get(url).catch((error) => console.log(error));
-    setAbilityName(capitaliseStr(response.data.name));
-    if (response.data.effect_entries[0].language.name === "en") {
-      setAbilityDetail(response.data.effect_entries[0].effect);
-    } else {
-      setAbilityDetail(response.data.effect_entries[1].effect);
-    }
-  };
-
   useEffect(() => {
-    fetchPokemonAbility(abilityUrl);
+    const cancelToken = axios.CancelToken.source();
+    axios
+      .get(abilityUrl, { cancelToken: cancelToken.token })
+      .then((response) => {
+        setAbilityName(capitaliseStr(response.data.name));
+        if (response.data.effect_entries[0].language.name === "en") {
+          setAbilityDetail(response.data.effect_entries[0].effect);
+        } else {
+          setAbilityDetail(response.data.effect_entries[1].effect);
+        }
+      })
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          console.log(error);
+        }
+      });
+    return () => {
+      cancelToken.cancel();
+    };
   }, [abilityUrl]);
 
   return { abilityName, abilityDetail };

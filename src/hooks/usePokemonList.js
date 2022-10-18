@@ -13,6 +13,7 @@ const usePokemonList = () => {
     if (pokemonList.length === 0) {
       dispatch(fetchPokemonList(`${BASE_URL}pokemon/?limit=${20}`));
     }
+    document.title = `Pokedex`;
   }, [dispatch, pokemonList]);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const usePokemonList = () => {
         <p className="list--id">{appendHashToId(pokemonId)}</p>
         <img
           className="list--img"
-          alt=""
+          alt={pokemon.name}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemonId}.svg`}
         />
         <p className="list--name">{capitaliseStr(pokemon.name)}</p>

@@ -1,46 +1,21 @@
-# Getting Started with Create React App and Redux
+# Pokemon Pokedex
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+A detailed Pokemon pokedex which will show a Pokemon's abilities, stats and evolution.
 
-## Available Scripts
+### Project Description
 
-In the project directory, you can run:
+A responsive project made with HTML, CSS and Javascript. Utilizing React, React-Router-Dom, React-Redux, Redux-Toolkit, Axios.
 
-### `npm start`
+### How to run
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project was made using create-react-app. You will need to run it on your localhost using npm start.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Misc Info
 
-### `npm test`
+I wanted to make a project to practice API calls and data handling. PokeAPI.co allows free unlimited calls and therefore it was a great choice to use for this reason as I am trying to understand the different ways to fetch data.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+I also decided to use Redux (Redux toolkit to be more precise) as I really enjoyed using it for my last project. Ofcourse, useState would have been sufficient for a small scale project such as this Pokedex, but I wanted to get more practice in using Redux.
 
-### `npm run build`
+Throughout the project I have faced many problems such as the difficulty that is in handling complex JSON data and infinitely fetching API (Lucky the API was free!) by putting a fetch request straight inside a useEffect. Regarding the fetching, I have learn to create an async function outside the useEffect before calling the function inside and regarding data handling, I have since learned how useful Regex and recursive functions can be.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Overall, I am extremely happy with what I have made. Not only from looking at the end result, but by what I have managed to learn in the process.

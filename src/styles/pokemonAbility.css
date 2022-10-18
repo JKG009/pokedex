@@ -3,6 +3,7 @@
   border-radius: 20px;
   background-color: #ededee;
   width: 400px;
+  min-height: 200px;
 }
 
 .ability--name {

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { capitaliseStr } from "../../config";
 
 // Fetch the selected Pokemon's details
 export const fetchSelectedPokemon = createAsyncThunk(
@@ -36,6 +37,7 @@ export const selectedPokemonInfoSlice = createSlice({
     },
     [fetchSelectedPokemon.fulfilled]: (state, action) => {
       state.info = action.payload;
+      document.title = capitaliseStr(action.payload.name);
       state.isLoading = false;
     },
     [fetchSelectedPokemon.rejected]: (state, action) => {

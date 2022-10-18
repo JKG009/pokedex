@@ -11,6 +11,7 @@
 .blank_page {
   background-color: #565656;
   min-width: 640px;
+  min-height: 100vh;
 }
 
 .loading {
@@ -18,4 +19,5 @@
   text-align: center;
   height: 50%;
   padding: 500px 0;
+  font-size: 1.6rem;
 }

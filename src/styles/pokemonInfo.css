@@ -38,6 +38,7 @@
 
 .info--upper_container {
   display: flex;
+  min-height: 450px;
   justify-content: center;
   background-color: rgb(140, 176, 188);
   margin: 2rem 4rem 0;
@@ -53,6 +54,10 @@
 .info--name_container {
   display: flex;
   justify-content: space-around;
+}
+
+.info--img {
+  min-height: 400px;
 }
 
 .info--img_container {

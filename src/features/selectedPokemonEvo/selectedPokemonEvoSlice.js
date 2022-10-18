@@ -71,6 +71,12 @@ export const selectedPokemonEvoSlice = createSlice({
     updatePrevEvolutionUrl: (state, action) => {
       state.url.prevEvolutionUrl = action.payload;
     },
+    removeSelectedPokemonSpeciesUrl: (state) => {
+      state.url.speciesUrl = "";
+    },
+    removeFlavorText: (state) => {
+      state.pokemonEvoDetails.pokemonFlavorText = ""
+    }
   },
   extraReducers: {
     [fetchEvoChainUrl.pending]: (state) => {
@@ -105,6 +111,8 @@ export const {
   updateSelectedPokemonEvoUrl,
   updateSelectedPokemonSpeciesUrl,
   updatePrevEvolutionUrl,
+  removeSelectedPokemonSpeciesUrl,
+  removeFlavorText,
 } = selectedPokemonEvoSlice.actions;
 
 export default selectedPokemonEvoSlice.reducer;
